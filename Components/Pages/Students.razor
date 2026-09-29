@@ -1,0 +1,104 @@
+@page "/students"
+@rendermode InteractiveServer
+
+<PageTitle>Students</PageTitle>
+
+<h1>Student Management System</h1>
+
+<PageTitle>Students</PageTitle>
+
+<h1>Student Management System</h1>
+
+<div>
+    <label>Student Name</label>
+    <input @bind="studentName" />
+</div>
+
+<br />
+
+<div>
+    <label>Student ID</label>
+    <input @bind="studentId" />
+</div>
+
+<br />
+
+<div>
+    <label>Department</label>
+    <input @bind="department" />
+</div>
+
+<br />
+
+<div>
+    <label>Status</label>
+    <select @bind="status">
+        <option value="Present">Present</option>
+        <option value="Absent">Absent</option>
+    </select>
+</div>
+
+<br />
+
+<button @onclick="AddStudent">Add Student</button>
+
+<hr />
+
+<h2>Students</h2>
+
+@if (students.Count == 0)
+{
+    <p>No students added yet.</p>
+}
+else
+{
+    <ul>
+        @foreach (var student in students)
+        {
+            <li>
+                <strong>@student.Name</strong> -
+                @student.Id -
+                @student.Department -
+                @student.Status
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private string studentName = "";
+    private string studentId = "";
+    private string department = "";
+    private string status = "Present";
+
+    private List<Student> students = new();
+
+    private void AddStudent()
+    {
+        if (!string.IsNullOrWhiteSpace(studentName) &&
+            !string.IsNullOrWhiteSpace(studentId) &&
+            !string.IsNullOrWhiteSpace(department))
+        {
+            students.Add(new Student
+            {
+                Name = studentName,
+                Id = studentId,
+                Department = department,
+                Status = status
+            });
+
+            studentName = "";
+            studentId = "";
+            department = "";
+            status = "Present";
+        }
+    }
+
+    private class Student
+    {
+        public string Name { get; set; } = "";
+        public string Id { get; set; } = "";
+        public string Department { get; set; } = "";
+        public string Status { get; set; } = "";
+    }
+}
